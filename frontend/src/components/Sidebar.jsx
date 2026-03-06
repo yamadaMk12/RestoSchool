@@ -19,12 +19,12 @@ import { cn } from './ui';
 const Sidebar = ({ isOpen, onClose }) => {
     const { user } = useAuth();
 
-    const eleveLinks = [
-        { to: '/eleve/dashboard', icon: LayoutDashboard, label: 'Tableau de bord' },
-        { to: '/eleve/reserver', icon: Utensils, label: 'Réserver' },
-        { to: '/eleve/reservations', icon: History, label: 'Mes Réservations' },
-        { to: '/eleve/reclamation', icon: MessageSquare, label: 'Réclamations' },
-        { to: '/eleve/notifications', icon: Bell, label: 'Notifications' },
+    const stagiaireLinks = [
+        { to: '/stagiaire/dashboard', icon: LayoutDashboard, label: 'Tableau de bord' },
+        { to: '/stagiaire/reserver', icon: Utensils, label: 'Réserver' },
+        { to: '/stagiaire/reservations', icon: History, label: 'Mes Réservations' },
+        { to: '/stagiaire/reclamation', icon: MessageSquare, label: 'Réclamations' },
+        { to: '/stagiaire/notifications', icon: Bell, label: 'Notifications' },
     ];
 
     const adminLinks = [
@@ -38,7 +38,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         { to: '/admin/logs', icon: FileText, label: 'Logs d\'actions' },
     ];
 
-    const links = user?.role === 'admin' ? adminLinks : eleveLinks;
+    const links = user?.role === 'admin' ? adminLinks : stagiaireLinks;
 
     return (
         <>

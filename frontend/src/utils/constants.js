@@ -24,6 +24,6 @@ export const NOTIFICATION_TYPES = {
 };
 
 export const ROLES = {
-    ELEVE: 'eleve',
+    STAGIAIRE: 'stagiaire',
     ADMIN: 'admin',
 };

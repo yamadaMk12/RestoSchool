@@ -42,7 +42,7 @@ class SanctionService {
         // Log Action
         await ActionLog.create({
             cef,
-            role: 'eleve',
+            role: 'stagiaire',
             action: 'SANCTION_APPLIED',
             details: { reservationId, dateFin }
         });

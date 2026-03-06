@@ -15,12 +15,12 @@ router.get('/status', getStatus);
 
 router.post('/', [
     reservationLimiter,
-    requireRole('eleve'),
+    requireRole('stagiaire'),
     body('date').notEmpty().withMessage('Date requise'),
     body('repas').isArray({ min: 1 }).withMessage('Au moins un repas requis'),
     validate
 ], createReservation);
 
-router.delete('/:id', requireRole('eleve'), deleteReservation);
+router.delete('/:id', requireRole('stagiaire'), deleteReservation);
 
 export default router;

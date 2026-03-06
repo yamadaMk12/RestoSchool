@@ -3,7 +3,7 @@ import NotificationService from '../services/notification.service.js';
 import Logger from '../utils/logger.js';
 
 /**
- * @desc    Get reports (Admin: all, Eleve: own)
+ * @desc    Get reports (Admin: all, Stagiaire: own)
  * @route   GET /api/reports
  * @access  Private
  */
@@ -24,7 +24,7 @@ const getReports = async (req, res) => {
 /**
  * @desc    Create a new report
  * @route   POST /api/reports
- * @access  Private/Eleve
+ * @access  Private/Stagiaire
  */
 const createReport = async (req, res) => {
     const { message, attachments } = req.body;
@@ -37,7 +37,7 @@ const createReport = async (req, res) => {
         });
 
         res.status(201).json(report);
-        await Logger.log(req.user.CEF, 'eleve', 'REPORT_CREATED', { reportId: report._id });
+        await Logger.log(req.user.CEF, 'stagiaire', 'REPORT_CREATED', { reportId: report._id });
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la création du signalement' });
     }

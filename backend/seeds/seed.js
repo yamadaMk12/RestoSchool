@@ -22,13 +22,13 @@ const seed = async () => {
         const adminPassword = await bcrypt.hash('admin123', salt);
 
         await User.create({
-            CIN: 'AB123456',
-            CEF: 'ADM001',
-            nom: 'Alaoui',
-            prenom: 'Hassan',
+            CIN: 'L697511',
+            CEF: '2005010500357',
+            nom: 'Elhalimi',
+            prenom: 'Mohamed',
             genre: 'M',
             role: 'admin',
-            password: 'admin123' // Will be hashed by pre-save middleware if we didn't hash it here, but we'll use the middleware
+            password: 'L697511!CMCTTA' // Will be hashed by pre-save middleware if we didn't hash it here, but we'll use the middleware
         });
 
         // Create Students

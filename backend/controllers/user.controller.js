@@ -17,7 +17,7 @@ const getMe = async (req, res) => {
  */
 const getUsers = async (req, res) => {
     try {
-        const users = await User.find({ role: 'eleve' }).select('-password');
+        const users = await User.find({ role: 'stagiaire' }).select('-password');
         res.json(users);
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la récupération des utilisateurs' });

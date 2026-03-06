@@ -71,7 +71,7 @@ const MesReservations = () => {
                                         <div className="flex flex-col items-center gap-4 grayscale opacity-40">
                                             <Search size={48} />
                                             <p className="text-xl font-medium">Aucune réservation trouvée</p>
-                                            <Button variant="secondary" onClick={() => window.location.href = '/eleve/reserver'}>Réserver un repas</Button>
+                                            <Button variant="secondary" onClick={() => window.location.href = '/stagiaire/reserver'}>Réserver un repas</Button>
                                         </div>
                                     </td>
                                 </tr>

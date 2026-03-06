@@ -19,7 +19,7 @@ const ProtectedRoute = ({ allowedRoles }) => {
 
     if (allowedRoles && !allowedRoles.includes(user.role)) {
         // Redirige vers le dashboard approprié si le rôle n'est pas permis
-        return <Navigate to={user.role === 'admin' ? '/admin/dashboard' : '/eleve/dashboard'} replace />;
+        return <Navigate to={user.role === 'admin' ? '/admin/dashboard' : '/stagiaire/dashboard'} replace />;
     }
 
     return <Outlet />;

@@ -22,7 +22,7 @@ const LoginPage = () => {
             if (user.role === 'admin') {
                 navigate('/admin/dashboard');
             } else {
-                navigate('/eleve/dashboard');
+                navigate('/stagiaire/dashboard');
             }
         } catch (err) {
             console.log(err);

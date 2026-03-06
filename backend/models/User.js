@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
     prenom: { type: String, required: true },
     genre: { type: String, enum: ['M', 'F'] },
     salle: { type: String },
-    role: { type: String, enum: ['eleve', 'admin'], default: 'eleve' },
+    role: { type: String, enum: ['stagiaire', 'admin'], default: 'stagiaire' },
     password: { type: String, required: true },
     isSuspended: { type: Boolean, default: false },
     suspensionEnd: { type: Date, default: null }

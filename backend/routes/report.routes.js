@@ -11,7 +11,7 @@ router.use(protect);
 
 router.route('/')
     .get(getReports)
-    .post(requireRole('eleve'), [
+    .post(requireRole('stagiaire'), [
         body('message').notEmpty().withMessage('Message requis'),
         validate
     ], createReport);

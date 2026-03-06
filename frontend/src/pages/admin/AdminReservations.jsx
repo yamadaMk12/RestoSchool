@@ -46,7 +46,7 @@ const AdminReservations = () => {
         // Students who didn't reserve for this specific date
         const reservedCefs = new Set(reservations.map(r => r.cef));
         const notReservedList = allUsers
-            .filter(u => u.role === 'eleve' && !reservedCefs.has(u.CEF))
+            .filter(u => u.role === 'stagiaire' && !reservedCefs.has(u.CEF))
             .map(u => ({
                 id: u._id,
                 cef: u.CEF,

@@ -4,7 +4,7 @@ import Logger from '../utils/logger.js';
 import { isWindowOpen, getWindowClosedReason } from '../utils/reservationWindow.js';
 
 /**
- * @desc    Get reservations (Admin: all today, Eleve: own)
+ * @desc    Get reservations (Admin: all today, Stagiaire: own)
  * @route   GET /api/reservations
  * @access  Private
  */
@@ -45,7 +45,7 @@ const getStatus = async (req, res) => {
 /**
  * @desc    Create a reservation
  * @route   POST /api/reservations
- * @access  Private/Eleve
+ * @access  Private/Stagiaire
  */
 const createReservation = async (req, res) => {
     const { repas, date } = req.body;
@@ -72,7 +72,7 @@ const createReservation = async (req, res) => {
         });
 
         res.status(201).json(reservation);
-        await Logger.log(req.user.CEF, 'eleve', 'RESERVATION_CREATED', { reservationId: reservation._id, date });
+        await Logger.log(req.user.CEF, 'stagiaire', 'RESERVATION_CREATED', { reservationId: reservation._id, date });
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la création de la réservation' });
     }
@@ -81,7 +81,7 @@ const createReservation = async (req, res) => {
 /**
  * @desc    Cancel a reservation
  * @route   DELETE /api/reservations/:id
- * @access  Private/Eleve
+ * @access  Private/Stagiaire
  */
 const deleteReservation = async (req, res) => {
     try {
@@ -98,7 +98,7 @@ const deleteReservation = async (req, res) => {
 
             await reservation.deleteOne();
             res.json({ message: 'Réservation annulée' });
-            await Logger.log(req.user.CEF, 'eleve', 'RESERVATION_CANCELLED', { reservationId: req.params.id });
+            await Logger.log(req.user.CEF, 'stagiaire', 'RESERVATION_CANCELLED', { reservationId: req.params.id });
         } else {
             res.status(404).json({ message: 'Réservation non trouvée' });
         }

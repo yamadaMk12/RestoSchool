@@ -24,7 +24,7 @@ const login = async (req, res) => {
         const user = await User.findOne({ CEF: cef });
 
         if (user && (await user.matchPassword(password))) {
-            if (user.role === 'eleve' && user.isSuspended) {
+            if (user.role === 'stagiaire' && user.isSuspended) {
                 const now = new Date();
                 if (user.suspensionEnd && user.suspensionEnd > now) {
                     return res.status(403).json({

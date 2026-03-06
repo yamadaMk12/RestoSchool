@@ -12,7 +12,7 @@ import {
     Clock
 } from 'lucide-react';
 
-const DashboardEleve = () => {
+const DashboardStagiaire = () => {
     const { user } = useAuth();
 
     const stats = [
@@ -28,7 +28,7 @@ const DashboardEleve = () => {
                     <p className="text-slate-500 dark:text-slate-400 mt-1">Salle: <span className="font-semibold text-slate-700 dark:text-slate-300">{user?.salle}</span> • Statut: {user?.suspended ? <Badge variant="danger">Suspendu</Badge> : <Badge variant="success">Actif</Badge>}</p>
                 </div>
                 <div className="flex gap-3">
-                    <Link to="/eleve/reserver">
+                    <Link to="/stagiaire/reserver">
                         <Button className="gap-2">
                             <Utensils size={18} />
                             Réserver maintenant
@@ -69,17 +69,17 @@ const DashboardEleve = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <QuickLink to="/eleve/reserver" icon={Utensils} label="Réserver" color="bg-emerald-500" />
-                <QuickLink to="/eleve/reservations" icon={History} label="Mes Réservations" color="bg-blue-500" />
-                <QuickLink to="/eleve/reclamation" icon={MessageSquare} label="Réclamations" color="bg-amber-500" />
-                <QuickLink to="/eleve/notifications" icon={Bell} label="Notifications" color="bg-purple-500" />
+                <QuickLink to="/stagiaire/reserver" icon={Utensils} label="Réserver" color="bg-emerald-500" />
+                <QuickLink to="/stagiaire/reservations" icon={History} label="Mes Réservations" color="bg-blue-500" />
+                <QuickLink to="/stagiaire/reclamation" icon={MessageSquare} label="Réclamations" color="bg-amber-500" />
+                <QuickLink to="/stagiaire/notifications" icon={Bell} label="Notifications" color="bg-purple-500" />
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <Card className="p-0 overflow-hidden">
                     <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
                         <h3 className="font-bold text-slate-800 dark:text-slate-100">Dernières Réservations</h3>
-                        <Link to="/eleve/reservations" className="text-sm font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300">Voir tout</Link>
+                        <Link to="/stagiaire/reservations" className="text-sm font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300">Voir tout</Link>
                     </div>
                     <div className="divide-y divide-slate-50 dark:divide-slate-800 text-sm">
                         {[1, 2, 3].map(i => (
@@ -102,7 +102,7 @@ const DashboardEleve = () => {
                 <Card className="p-0 overflow-hidden">
                     <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
                         <h3 className="font-bold text-slate-800 dark:text-slate-100">Notifications Récentes</h3>
-                        <Link to="/eleve/notifications" className="text-sm font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300">Tout lire</Link>
+                        <Link to="/stagiaire/notifications" className="text-sm font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300">Tout lire</Link>
                     </div>
                     <div className="divide-y divide-slate-50 dark:divide-slate-800 text-sm">
                         {[1, 2].map(i => (
@@ -135,4 +135,4 @@ const QuickLink = ({ to, icon: Icon, label, color }) => (
     </Link>
 );
 
-export default DashboardEleve;
+export default DashboardStagiaire;

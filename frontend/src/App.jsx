@@ -6,11 +6,11 @@ import LoginPage from './pages/auth/LoginPage';
 import Layout from './components/Layout';
 
 // Élève Pages
-import DashboardEleve from './pages/eleve/DashboardEleve';
-import ReservationPage from './pages/eleve/ReservationPage';
-import ListReservations from './pages/eleve/ListReservations';
-import ReclamationPage from './pages/eleve/ReclamationPage';
-import NotificationsPage from './pages/eleve/NotificationsPage';
+import DashboardStagiaire from './pages/stagiaire/DashboardStagiaire';
+import ReservationPage from './pages/stagiaire/ReservationPage';
+import ListReservations from './pages/stagiaire/ListReservations';
+import ReclamationPage from './pages/stagiaire/ReclamationPage';
+import NotificationsPage from './pages/stagiaire/NotificationsPage';
 
 // Admin Pages
 import DashboardAdmin from './pages/admin/DashboardAdmin';
@@ -33,11 +33,11 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
 
             {/* Espace Élève */}
-            <Route element={<ProtectedRoute allowedRoles={['eleve']} />}>
-              <Route path="/eleve/*" element={
+            <Route element={<ProtectedRoute allowedRoles={['stagiaire']} />}>
+              <Route path="/stagiaire/*" element={
                 <Layout>
                   <Routes>
-                    <Route path="dashboard" element={<DashboardEleve />} />
+                    <Route path="dashboard" element={<DashboardStagiaire />} />
                     <Route path="reserver" element={<ReservationPage />} />
                     <Route path="reservations" element={<ListReservations />} />
                     <Route path="reclamation" element={<ReclamationPage />} />
