@@ -13,7 +13,7 @@ const getReservations = async (req, res) => {
         let reservations;
         if (req.user.role === 'admin') {
             const date = req.query.date || new Date().toISOString().split('T')[0];
-            reservations = await Reservation.find({ date }).populate('student', 'nom prenom salle');
+            reservations = await Reservation.find({ date }).populate('student', 'nom prenom room');
         } else {
             reservations = await Reservation.find({ cef: req.user.CEF }).sort({ date: -1 });
         }

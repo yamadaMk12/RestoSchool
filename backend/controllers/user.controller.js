@@ -30,7 +30,7 @@ const getUsers = async (req, res) => {
  * @access  Private/Admin
  */
 const createUser = async (req, res) => {
-    const { CIN, CEF, nom, prenom, genre, salle, password } = req.body;
+    const { CIN, CEF, nom, prenom, genre, room, password } = req.body;
 
     try {
         const userExists = await User.findOne({ CEF });
@@ -45,7 +45,7 @@ const createUser = async (req, res) => {
             nom,
             prenom,
             genre,
-            salle,
+            room,
             password
         });
 
@@ -78,7 +78,7 @@ const updateUser = async (req, res) => {
             user.nom = req.body.nom || user.nom;
             user.prenom = req.body.prenom || user.prenom;
             user.genre = req.body.genre || user.genre;
-            user.salle = req.body.salle || user.salle;
+            user.room = req.body.room || user.room;
 
             if (req.body.password) {
                 user.password = req.body.password;

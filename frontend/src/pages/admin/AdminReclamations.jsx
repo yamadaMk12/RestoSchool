@@ -136,7 +136,7 @@ const AdminReclamations = () => {
                         </div>
                         <div>
                             <p className="text-sm font-black text-slate-900 dark:text-slate-100 uppercase tracking-tight">{selectedRec?.student?.nom} {selectedRec?.student?.prenom}</p>
-                            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">CEF: {selectedRec?.cef} • Salle: {selectedRec?.student?.salle}</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">CEF: {selectedRec?.cef} • Salle: {selectedRec?.student?.room}</p>
                         </div>
                     </div>
 

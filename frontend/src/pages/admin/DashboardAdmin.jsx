@@ -30,7 +30,7 @@ const DashboardAdmin = () => {
     const statCards = [
         { label: 'Réservations Aujourd\'hui', value: stats?.reservationsToday, icon: Utensils, color: 'text-blue-600', bg: 'bg-blue-50', link: '/admin/reservations' },
         { label: 'Taux de Présence', value: `${stats?.presenceRate || 0}%`, icon: TrendingUp, color: 'text-emerald-600', bg: 'bg-emerald-50', link: '/admin/statistiques' },
-        { label: 'Élèves Suspendus', value: stats?.suspendedCount, icon: ShieldAlert, color: 'text-red-600', bg: 'bg-red-50', link: '/admin/sanctions' },
+        { label: 'Stagiaires Suspendus', value: stats?.suspendedCount, icon: ShieldAlert, color: 'text-red-600', bg: 'bg-red-50', link: '/admin/sanctions' },
         { label: 'Réclamations Ouvertes', value: stats?.openReclamations, icon: MessageSquare, color: 'text-amber-600', bg: 'bg-amber-50', link: '/admin/reclamations' },
     ];
 

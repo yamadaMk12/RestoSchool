@@ -38,7 +38,7 @@ const AdminReservations = () => {
             cef: r.cef || '?',
             nom: r.student?.nom || 'Inconnu',
             prenom: r.student?.prenom || '',
-            salle: r.student?.salle || '?',
+            room: r.student?.room || '?',
             meals: r.repas, // Array from backend
             status: r.statut
         }));
@@ -52,7 +52,7 @@ const AdminReservations = () => {
                 cef: u.CEF,
                 nom: u.nom,
                 prenom: u.prenom,
-                salle: u.salle || '?',
+                room: u.room || '?',
                 meals: [],
                 status: 'Non réservé'
             }));
@@ -71,7 +71,7 @@ const AdminReservations = () => {
                 item.nom.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 item.prenom.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 item.cef.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                item.salle.toLowerCase().includes(searchTerm.toLowerCase());
+                item.room.toLowerCase().includes(searchTerm.toLowerCase());
 
             if (activeTab === 'not_reserved') return matchesSearch;
 
@@ -146,7 +146,7 @@ const AdminReservations = () => {
                             <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                             <input
                                 type="text"
-                                placeholder="Rechercher par nom, CEF ou salle..."
+                                placeholder="Rechercher par nom, CEF ou chambre..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500"
@@ -204,7 +204,7 @@ const AdminReservations = () => {
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-4 font-semibold text-sm text-slate-600 dark:text-slate-400">{row.salle}</td>
+                                            <td className="px-6 py-4 font-semibold text-sm text-slate-600 dark:text-slate-400">{row.room}</td>
                                             <td className="px-6 py-4">
                                                 <div className="flex flex-wrap gap-1">
                                                     {row.meals.length > 0 ? row.meals.map(m => getMealBadge(m)) : <span className="text-xs text-slate-400 italic">Aucun</span>}

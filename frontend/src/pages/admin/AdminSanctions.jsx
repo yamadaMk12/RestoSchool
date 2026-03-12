@@ -99,7 +99,7 @@ const AdminSanctions = () => {
                                                 <span className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-widest">{s.cef}</span>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4"><Badge variant="default">{s.student?.salle || '?'}</Badge></td>
+                                        <td className="px-6 py-4"><Badge variant="default">{s.student?.room || '?'}</Badge></td>
                                         <td className="px-4 py-4 text-xs font-bold text-slate-500 dark:text-slate-400">{new Date(s.dateDebut).toLocaleDateString()}</td>
                                         <td className="px-4 py-4 text-xs font-black text-red-600 dark:text-red-400">{new Date(s.dateFin).toLocaleDateString()}</td>
                                         <td className="px-6 py-4 text-right">
