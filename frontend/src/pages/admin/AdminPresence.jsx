@@ -69,7 +69,7 @@ const AdminPresence = () => {
                         <ClipboardCheck size={28} className="text-primary-600 dark:text-primary-400" />
                         Saisie des Présences
                     </h1>
-                    <p className="text-slate-500 dark:text-slate-400 mt-1 transition-colors duration-300">Pointage en temps réel par salle et par repas.</p>
+                    <p className="text-slate-500 dark:text-slate-400 mt-1 transition-colors duration-300">Pointage en temps réel par room et par repas.</p>
                 </div>
                 <div className="w-full md:w-64 space-y-2">
                     <div className="flex justify-between text-xs font-black uppercase tracking-widest text-slate-400 dark:text-slate-500">
@@ -132,7 +132,7 @@ const AdminPresence = () => {
                                         <td className="px-6 py-4">
                                             <p className="text-sm font-bold text-slate-800 dark:text-slate-100">{row.student?.nom} {row.student?.prenom}</p>
                                         </td>
-                                        <td className="px-6 py-4"><Badge variant="default">{row.student?.salle}</Badge></td>
+                                        <td className="px-6 py-4"><Badge variant="default">{row.student?.room}</Badge></td>
                                         <td className="px-6 py-4">
                                             <div className="flex justify-center gap-2">
                                                 {row.statut === 'en_attente' ? (

@@ -11,6 +11,7 @@ import sanctionRoutes from './routes/sanction.routes.js';
 import reportRoutes from './routes/report.routes.js';
 import notificationRoutes from './routes/notification.routes.js';
 import statsRoutes from './routes/stats.routes.js';
+import logRoutes from './routes/log.routes.js';
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use('/api/sanctions', sanctionRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/stats', statsRoutes);
+app.use('/api/logs', logRoutes);
 
 // Health check
 app.get('/health', (req, res) => {

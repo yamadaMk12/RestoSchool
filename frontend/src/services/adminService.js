@@ -32,7 +32,7 @@ export const updateReport = async (id, data) => {
 };
 
 export const getAdminStats = async () => {
-    const response = await api.get('/stats/summary');
+    const response = await api.get('/stats/dashboard');
     return response.data;
 };
 
@@ -41,8 +41,8 @@ export const getDailyStats = async () => {
     return response.data;
 };
 
-export const getLogs = async () => {
-    const response = await api.get('/logs');
+export const getLastLogs = async () => {
+    const response = await api.get('/logs/last');
     return response.data;
 };
 export const getAdminReservations = async (date) => {

@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button, Badge } from '../../components/ui';
-import { getAdminStats, getLogs } from '../../services/adminService';
-import {
-    Users,
-    Utensils,
-    ShieldAlert,
-    MessageSquare,
-    ArrowUpRight,
-    TrendingUp,
-    Clock
-} from 'lucide-react';
+import { getAdminStats, getLastLogs } from '../../services/adminService';
+import { Users, Utensils, ShieldAlert, MessageSquare, ArrowUpRight, TrendingUp, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const DashboardAdmin = () => {
@@ -21,17 +13,21 @@ const DashboardAdmin = () => {
     }, []);
 
     const fetchData = async () => {
-        const s = await getAdminStats();
-        const l = await getLogs();
-        setStats(s);
-        setLogs(l);
+        try {
+            const s = await getAdminStats();
+            setStats(s);
+            const l = await getLastLogs();
+            setLogs(l);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const statCards = [
-        { label: 'Réservations Aujourd\'hui', value: stats?.reservationsToday, icon: Utensils, color: 'text-blue-600', bg: 'bg-blue-50', link: '/admin/reservations' },
+        { label: 'Réservations Aujourd\'hui', value: stats?.totalToday, icon: Utensils, color: 'text-blue-600', bg: 'bg-blue-50', link: '/admin/reservations' },
         { label: 'Taux de Présence', value: `${stats?.presenceRate || 0}%`, icon: TrendingUp, color: 'text-emerald-600', bg: 'bg-emerald-50', link: '/admin/statistiques' },
         { label: 'Élèves Suspendus', value: stats?.suspendedCount, icon: ShieldAlert, color: 'text-red-600', bg: 'bg-red-50', link: '/admin/sanctions' },
-        { label: 'Réclamations Ouvertes', value: stats?.openReclamations, icon: MessageSquare, color: 'text-amber-600', bg: 'bg-amber-50', link: '/admin/reclamations' },
+        { label: 'Réclamations Ouvertes', value: stats?.openReports, icon: MessageSquare, color: 'text-amber-600', bg: 'bg-amber-50', link: '/admin/reclamations' },
     ];
 
     return (
@@ -90,7 +86,7 @@ const DashboardAdmin = () => {
                                                 <span className="text-[11px] text-slate-400 dark:text-slate-500 font-medium">{log.date}</span>
                                             </div>
                                             <p className="text-sm text-slate-600 dark:text-slate-400 truncate mt-0.5">{log.details}</p>
-                                            <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-1 uppercase tracking-wider">Par: {log.user} ({log.role})</p>
+                                            <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-1 uppercase tracking-wider">Par: {log.cef} ({log.role})</p>
                                         </div>
                                     </div>
                                 ))
