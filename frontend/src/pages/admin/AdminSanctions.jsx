@@ -71,7 +71,7 @@ const AdminSanctions = () => {
                         <thead>
                             <tr className="bg-slate-50 dark:bg-slate-800/50 text-slate-400 dark:text-slate-500 font-bold text-[11px] uppercase tracking-widest transition-colors duration-300">
                                 <th className="px-6 py-4">Étudiant</th>
-                                <th className="px-6 py-4">Salle</th>
+                                <th className="px-6 py-4">Chambre</th>
                                 <th className="px-4 py-4">Début</th>
                                 <th className="px-4 py-4 text-red-500 dark:text-red-400">Fin prévue</th>
                                 <th className="px-6 py-4 text-right">Actions</th>

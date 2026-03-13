@@ -5,7 +5,7 @@ import { FileText, Search, Clock, Shield } from 'lucide-react';
 const AdminLogs = () => {
     const logs = [
         { id: 1, date: '2024-05-20 14:30', user: 'Admin', role: 'admin', action: 'Connexion', details: 'Connexion réussie depuis 192.168.1.1' },
-        { id: 2, date: '2024-05-20 12:15', user: 'Admin', role: 'admin', action: 'Saisie Présence', details: 'Pointage Déjeuner Salle B204 (12 présents, 1 absent)' },
+        { id: 2, date: '2024-05-20 12:15', user: 'Admin', role: 'admin', action: 'Saisie Présence', details: 'Pointage Déjeuner Chambre B204 (12 présents, 1 absent)' },
         { id: 3, date: '2024-05-20 12:16', user: 'Système', role: 'SYSTEM', action: 'Sanction', details: 'Suspension automatique CEF 67890 (Alice Martin) pour absence' },
         { id: 4, date: '2024-05-19 18:00', user: 'Système', role: 'SYSTEM', action: 'Ouverture', details: 'Ouverture automatique des réservations pour le lendemain' },
         { id: 5, date: '2024-05-19 09:00', user: 'Jean Dupont', role: 'ELEVE', action: 'Réclamation', details: 'Nouvelle réclamation #45: "Repas froid"' },

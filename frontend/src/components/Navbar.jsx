@@ -33,7 +33,7 @@ const Navbar = ({ onToggleSidebar }) => {
                 <div className="flex items-center gap-3">
                     <div className="text-right hidden sm:block">
                         <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">{user?.nom}</p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">{user?.role === 'admin' ? 'Administrateur' : `Élève - ${user?.salle}`}</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">{user?.role === 'admin' ? 'Administrateur' : `Élève - ${user?.room}`}</p>
                     </div>
                     <div className="w-10 h-10 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
                         <User size={20} />

@@ -59,7 +59,7 @@ const AdminUsers = () => {
                 </div>
                 <Button variant="secondary" size="sm" className="gap-2 shrink-0">
                     <Filter size={18} />
-                    Filtrer par salle
+                    Filtrer par room
                 </Button>
             </Card>
 
@@ -77,7 +77,7 @@ const AdminUsers = () => {
                                     <th className="px-6 py-4">CEF / CIN</th>
                                     <th className="px-6 py-4">Étudiant</th>
                                     <th className="px-6 py-4 text-center">Genre</th>
-                                    <th className="px-6 py-4">Salle</th>
+                                    <th className="px-6 py-4">Chambre</th>
                                     <th className="px-6 py-4">Rôle</th>
                                     <th className="px-6 py-4 text-right">Actions</th>
                                 </tr>
@@ -100,7 +100,7 @@ const AdminUsers = () => {
                                         <td className="px-6 py-4 text-center">
                                             <Badge variant="default" className="w-6 h-6 flex items-center justify-center p-0">{u.genre || '?'}</Badge>
                                         </td>
-                                        <td className="px-6 py-4"><span className="font-bold text-slate-500 dark:text-slate-400">{u.salle}</span></td>
+                                        <td className="px-6 py-4"><span className="font-bold text-slate-500 dark:text-slate-400">{u.room}</span></td>
                                         <td className="px-6 py-4">
                                             <Badge variant={u.role === 'admin' ? 'info' : 'success'}>
                                                 {u.role?.toUpperCase()}
@@ -146,7 +146,7 @@ const AdminUsers = () => {
                     <InputGroup label="Nom" placeholder="Nom" />
                     <InputGroup label="Prénom" placeholder="Prénom" />
                     <div className="col-span-2">
-                        <InputGroup label="Salle" placeholder="Ex: B204" />
+                        <InputGroup label="Chambre" placeholder="Ex: B204" />
                     </div>
                 </div>
             </Modal>
