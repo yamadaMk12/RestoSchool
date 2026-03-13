@@ -7,21 +7,7 @@ const userSchema = new mongoose.Schema({
     nom: { type: String, required: true },
     prenom: { type: String, required: true },
     genre: { type: String, enum: ['M', 'F'] },
-    room: {
-        type: Number,
-        validate: {
-            validator: async function (value) {
-                if (!value || this.role !== 'stagiaire') return true;
-                const count = await this.constructor.countDocuments({
-                    room: value,
-                    role: 'stagiaire',
-                    _id: { $ne: this._id }
-                });
-                return count < 4;
-            },
-            message: 'Room is full. Maximum 4 students allowed per room.'
-        }
-    },
+    salle: { type: String },
     role: { type: String, enum: ['stagiaire', 'admin'], default: 'stagiaire' },
     password: { type: String, required: true },
     isSuspended: { type: Boolean, default: false },
@@ -37,6 +23,22 @@ userSchema.pre('save', async function (next) {
     }
     const salt = await bcrypt.genSalt(12);
     this.password = await bcrypt.hash(this.password, salt);
+    next();
+});
+
+// Check room occupancy before saving
+userSchema.pre('save', async function (next) {
+    if (this.isModified('room') && this.room !== undefined && this.room !== null) {
+        const count = await this.constructor.countDocuments({
+            room: this.room,
+            _id: { $ne: this._id }
+        });
+
+        if (count >= 4) {
+            const error = new Error('La chambre est déjà complète (maximum 4 personnes)');
+            return next(error);
+        }
+    }
     next();
 });
 

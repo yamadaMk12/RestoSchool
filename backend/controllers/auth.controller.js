@@ -37,11 +37,24 @@ const login = async (req, res) => {
                 }
             }
 
+            console.log({
+                token: generateToken(user.CEF),
+                user: {
+                    _id: user._id,
+                    CEF: user.CEF,
+                    room: user.room,
+                    nom: user.nom,
+                    prenom: user.prenom,
+                    role: user.role,
+                    isSuspended: user.isSuspended
+                }
+            });
             res.json({
                 token: generateToken(user.CEF),
                 user: {
                     _id: user._id,
                     CEF: user.CEF,
+                    room: user.room,
                     nom: user.nom,
                     prenom: user.prenom,
                     role: user.role,

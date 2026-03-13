@@ -51,7 +51,7 @@ const AdminStats = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <StatSummaryCard title="Total Réservations (7j)" value="701" trend="+12%" icon={Users} color="text-blue-600" bg="bg-blue-50" />
                 <StatSummaryCard title="Taux de présence moyen" value="94.2%" trend="+2.4%" icon={Target} color="text-emerald-600" bg="bg-emerald-50" />
-                <StatSummaryCard title="Élèves les plus absents" value="5" trend="-1" icon={PieChartIcon} color="text-amber-600" bg="bg-amber-50" />
+                <StatSummaryCard title="Stagiaires les plus absents" value="5" trend="-1" icon={PieChartIcon} color="text-amber-600" bg="bg-amber-50" />
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

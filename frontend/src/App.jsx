@@ -5,7 +5,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import LoginPage from './pages/auth/LoginPage';
 import Layout from './components/Layout';
 
-// Élève Pages
+// Stagiaire Pages
 import DashboardStagiaire from './pages/stagiaire/DashboardStagiaire';
 import ReservationPage from './pages/stagiaire/ReservationPage';
 import ListReservations from './pages/stagiaire/ListReservations';
@@ -32,7 +32,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<LoginPage />} />
 
-            {/* Espace Élève */}
+            {/* Espace Stagiaire */}
             <Route element={<ProtectedRoute allowedRoles={['stagiaire']} />}>
               <Route path="/stagiaire/*" element={
                 <Layout>
