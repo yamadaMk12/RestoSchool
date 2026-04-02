@@ -16,7 +16,9 @@ import logRoutes from './routes/log.routes.js';
 const app = express();
 
 // Middlewares
-app.use(helmet());
+app.use(helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
 app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:5173' }));
 app.use(express.json());
 app.use(morgan('dev'));

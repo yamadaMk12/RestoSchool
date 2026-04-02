@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Badge, Button, Modal } from '../../components/ui';
-import { getReservations, cancelReservation } from '../../services/reservationService';
+import { getReservations, cancelReservation, updateReservation } from '../../services/reservationService';
 import { Utensils, History, XCircle, Edit2, Search } from 'lucide-react';
 import { isReservationWindowOpen } from '../../utils/dateUtils';
 
@@ -9,6 +9,8 @@ const MesReservations = () => {
     const [loading, setLoading] = useState(true);
     const [selectedRes, setSelectedRes] = useState(null);
     const [showCancelModal, setShowCancelModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [editMeals, setEditMeals] = useState({ breakfast: false, lunch: false, dinner: false });
     const isWindowOpen = isReservationWindowOpen();
 
     useEffect(() => {
@@ -30,15 +32,42 @@ const MesReservations = () => {
     };
 
     const handleConfirmCancel = async () => {
-        await cancelReservation(selectedRes.id);
+        await cancelReservation(selectedRes._id);
         setShowCancelModal(false);
         fetchData();
     };
 
+    const handleEditClick = (res) => {
+        setSelectedRes(res);
+        setEditMeals({
+            breakfast: res.repas.includes('petit_dejeuner'),
+            lunch: res.repas.includes('dejeuner'),
+            dinner: res.repas.includes('diner')
+        });
+        setShowEditModal(true);
+    };
+
+    const handleToggleEditMeal = (meal) => {
+        setEditMeals(prev => ({ ...prev, [meal]: !prev[meal] }));
+    };
+
+    const handleConfirmEdit = async () => {
+        if (!editMeals.breakfast && !editMeals.lunch && !editMeals.dinner) return;
+        const repas = [];
+        if (editMeals.breakfast) repas.push('petit_dejeuner');
+        if (editMeals.lunch) repas.push('dejeuner');
+        if (editMeals.dinner) repas.push('diner');
+
+        await updateReservation(selectedRes._id, { repas });
+        setShowEditModal(false);
+        fetchData();
+    };
+
     const getStatusBadge = (status) => {
-        switch (status) {
+        switch (status?.toUpperCase()) {
             case 'PRESENT': return <Badge variant="success">PRÉSENT</Badge>;
             case 'ABSENT': return <Badge variant="danger">ABSENT</Badge>;
+            case 'EN_ATTENTE':
             default: return <Badge variant="warning">EN ATTENTE</Badge>;
         }
     };
@@ -77,22 +106,23 @@ const MesReservations = () => {
                                 </tr>
                             ) : (
                                 reservations.map((res) => (
-                                    <tr key={res.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
+                                    <tr key={res._id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
                                         <td className="px-6 py-4 font-medium text-slate-700 dark:text-slate-300">{res.date}</td>
                                         <td className="px-6 py-4">
-                                            <div className="flex items-center gap-2">
-                                                <Utensils size={14} className="text-primary-500" />
-                                                {res.type}
+                                            <div className="flex items-center gap-2 uppercase text-xs font-semibold">
+                                                <Utensils size={14} className="text-primary-500 shrink-0" />
+                                                {res.repas && res.repas.map(r => r.replace('_', ' ')).join(', ')}
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4">{getStatusBadge(res.status)}</td>
+                                        <td className="px-6 py-4">{getStatusBadge(res.statut)}</td>
                                         <td className="px-6 py-4 text-right">
-                                            {res.status === 'EN_ATTENTE' && (
+                                            {res.statut === 'en_attente' && (
                                                 <div className="flex justify-end gap-2">
                                                     <Button
                                                         variant="ghost"
                                                         size="sm"
                                                         className="text-primary-600 hover:bg-primary-50"
+                                                        onClick={() => handleEditClick(res)}
                                                         disabled={!isWindowOpen}
                                                         title={!isWindowOpen ? "Modification impossible (créneau fermé)" : "Modifier"}
                                                     >
@@ -131,9 +161,44 @@ const MesReservations = () => {
                 }
             >
                 <p className="text-slate-600 dark:text-slate-400">
-                    Êtes-vous sûr de vouloir annuler votre réservation pour le <span className="font-bold text-slate-900 dark:text-slate-100">{selectedRes?.date}</span> ({selectedRes?.type}) ?
+                    Êtes-vous sûr de vouloir annuler votre réservation pour le <span className="font-bold text-slate-900 dark:text-slate-100">{selectedRes?.date}</span> ?
                     Cette action est irréversible.
                 </p>
+            </Modal>
+
+            <Modal
+                isOpen={showEditModal}
+                onClose={() => setShowEditModal(false)}
+                title="Modifier la réservation"
+                footer={
+                    <>
+                        <Button variant="secondary" onClick={() => setShowEditModal(false)}>Annuler</Button>
+                        <Button 
+                            variant="primary" 
+                            className="bg-primary-600 hover:bg-primary-700 text-white"
+                            onClick={handleConfirmEdit}
+                            disabled={!editMeals.breakfast && !editMeals.lunch && !editMeals.dinner}
+                        >Confirmer</Button>
+                    </>
+                }
+            >
+                <div className="space-y-4">
+                    <p className="text-slate-600 dark:text-slate-400">Modifier vos repas pour le <span className="font-bold text-slate-900 dark:text-slate-100">{selectedRes?.date}</span> :</p>
+                    <div className="flex flex-col gap-3">
+                        <label className="flex items-center gap-3 cursor-pointer p-4 border border-slate-200 dark:border-slate-800 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                            <input type="checkbox" className="w-5 h-5 rounded border-slate-300 text-primary-500 focus:ring-primary-500" checked={editMeals.breakfast} onChange={() => handleToggleEditMeal('breakfast')} />
+                            <span className="font-semibold text-slate-700 dark:text-slate-300">Petit-déjeuner</span>
+                        </label>
+                        <label className="flex items-center gap-3 cursor-pointer p-4 border border-slate-200 dark:border-slate-800 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                            <input type="checkbox" className="w-5 h-5 rounded border-slate-300 text-primary-500 focus:ring-primary-500" checked={editMeals.lunch} onChange={() => handleToggleEditMeal('lunch')} />
+                            <span className="font-semibold text-slate-700 dark:text-slate-300">Déjeuner</span>
+                        </label>
+                        <label className="flex items-center gap-3 cursor-pointer p-4 border border-slate-200 dark:border-slate-800 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                            <input type="checkbox" className="w-5 h-5 rounded border-slate-300 text-primary-500 focus:ring-primary-500" checked={editMeals.dinner} onChange={() => handleToggleEditMeal('dinner')} />
+                            <span className="font-semibold text-slate-700 dark:text-slate-300">Dîner</span>
+                        </label>
+                    </div>
+                </div>
             </Modal>
         </div>
     );

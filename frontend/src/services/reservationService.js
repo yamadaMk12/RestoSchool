@@ -19,3 +19,8 @@ export const cancelReservation = async (id) => {
     const response = await api.delete(`/reservations/${id}`);
     return response.data;
 };
+
+export const createBulkReservations = async (reservations) => {
+    const response = await api.post('/reservations/bulk', { reservations });
+    return response.data;
+};

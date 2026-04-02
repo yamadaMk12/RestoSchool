@@ -1,5 +1,4 @@
 import Reservation from '../models/Reservation.js';
-import User from '../models/User.js';
 import Logger from '../utils/logger.js';
 import { isWindowOpen, getWindowClosedReason } from '../utils/reservationWindow.js';
 
@@ -107,4 +106,76 @@ const deleteReservation = async (req, res) => {
     }
 };
 
-export { getReservations, getStatus, createReservation, deleteReservation };
+/**
+ * @desc    Update a reservation
+ * @route   PUT /api/reservations/:id
+ * @access  Private/Stagiaire
+ */
+const updateReservation = async (req, res) => {
+    const { repas } = req.body;
+
+    try {
+        if (!isWindowOpen()) {
+            return res.status(403).json({ message: 'Modification impossible en dehors de la fenêtre.' });
+        }
+
+        const reservation = await Reservation.findById(req.params.id);
+
+        if (reservation) {
+            if (reservation.cef !== req.user.CEF) {
+                return res.status(403).json({ message: 'Non autorisé' });
+            }
+
+            reservation.repas = repas || reservation.repas;
+            await reservation.save();
+
+            res.json(reservation);
+            await Logger.log(req.user.CEF, 'stagiaire', 'RESERVATION_UPDATED', { reservationId: req.params.id, repas });
+        } else {
+            res.status(404).json({ message: 'Réservation non trouvée' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Erreur lors de la modification' });
+    }
+};
+
+/**
+ * @desc    Bulk create/update reservations
+ * @route   POST /api/reservations/bulk
+ * @access  Private/Stagiaire
+ */
+const bulkCreateReservations = async (req, res) => {
+    const { reservations } = req.body;
+
+    try {
+        if (!isWindowOpen()) {
+            return res.status(403).json({ message: getWindowClosedReason() });
+        }
+
+        if (req.user.isSuspended) {
+            return res.status(403).json({ message: 'Votre compte est suspendu.' });
+        }
+
+        if (!Array.isArray(reservations)) {
+            return res.status(400).json({ message: 'Données invalides' });
+        }
+
+        const bulkOps = reservations.map(item => ({
+            updateOne: {
+                filter: { cef: req.user.CEF, date: item.date },
+                update: { $set: { repas: item.repas, statut: 'en_attente' } },
+                upsert: true
+            }
+        }));
+
+        await Reservation.bulkWrite(bulkOps);
+
+        res.status(200).json({ message: 'Réservations mises à jour avec succès' });
+        await Logger.log(req.user.CEF, 'stagiaire', 'RESERVATIONS_BULK_UPDATED', { count: reservations.length });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Erreur lors de la mise à jour des réservations' });
+    }
+};
+
+export { getReservations, getStatus, createReservation, deleteReservation, updateReservation, bulkCreateReservations };

@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Card, Button, Badge } from '../../components/ui';
+import { getReservations } from '../../services/reservationService';
+import { getNotifications } from '../../services/notificationService';
 import {
     Utensils,
     History,
@@ -14,17 +16,37 @@ import {
 
 const DashboardStagiaire = () => {
     const { user } = useAuth();
+    const [reservations, setReservations] = useState([]);
+    const [notifications, setNotifications] = useState([]);
+
+    useEffect(() => {
+        const loadDashboardData = async () => {
+            try {
+                const [resData, notifData] = await Promise.all([
+                    getReservations(),
+                    getNotifications()
+                ]);
+                setReservations(resData || []);
+                setNotifications(notifData || []);
+            } catch (error) {
+                console.error("Error loading dashboard:", error);
+            }
+        };
+        loadDashboardData();
+    }, []);
+
+    const pendingCount = reservations.filter(r => r.statut === 'en_attente').length;
 
     const stats = [
-        { label: 'Réservations cette semaine', value: '8', icon: CalendarCheck, color: 'text-blue-600', bg: 'bg-blue-50' },
-        { label: 'Réservations en attente', value: '3', icon: Clock, color: 'text-amber-600', bg: 'bg-amber-50' },
+        { label: 'Total Réservations', value: reservations.length.toString(), icon: CalendarCheck, color: 'text-blue-600', bg: 'bg-blue-50' },
+        { label: 'Réservations en attente', value: pendingCount.toString(), icon: Clock, color: 'text-amber-600', bg: 'bg-amber-50' },
     ];
 
     return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Bonjour, {user?.nom} 👋</h1>
+                    <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Bonjour, {user?.nom}</h1>
                     <p className="text-slate-500 dark:text-slate-400 mt-1">Chambre: <span className="font-semibold text-slate-700 dark:text-slate-300">{user?.room}</span> • Statut: {user?.suspended ? <Badge variant="danger">Suspendu</Badge> : <Badge variant="success">Actif</Badge>}</p>
                 </div>
                 <div className="flex gap-3">
@@ -82,18 +104,24 @@ const DashboardStagiaire = () => {
                         <Link to="/stagiaire/reservations" className="text-sm font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300">Voir tout</Link>
                     </div>
                     <div className="divide-y divide-slate-50 dark:divide-slate-800 text-sm">
-                        {[1, 2, 3].map(i => (
-                            <div key={i} className="p-4 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                        {reservations.length === 0 ? (
+                            <div className="p-4 text-center text-sm text-slate-500">Aucune réservation</div>
+                        ) : reservations.slice(0, 3).map((res, i) => (
+                            <div key={res._id || i} className="p-4 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                                 <div className="flex items-center gap-3">
                                     <div className="w-10 h-10 bg-slate-100 dark:bg-slate-800 rounded-lg flex items-center justify-center text-slate-500 dark:text-slate-400">
                                         <Utensils size={18} />
                                     </div>
                                     <div>
-                                        <p className="font-semibold text-slate-800 dark:text-slate-100">Déjeuner</p>
-                                        <p className="text-xs text-slate-500 dark:text-slate-400">2{i} Mai 2024</p>
+                                        <p className="font-semibold text-slate-800 dark:text-slate-100 uppercase text-xs">
+                                            {res.repas && res.repas.map(r => r.replace('_', ' ')).join(', ')}
+                                        </p>
+                                        <p className="text-xs text-slate-500 dark:text-slate-400">{res.date}</p>
                                     </div>
                                 </div>
-                                <Badge variant={i === 2 ? 'danger' : 'success'}>{i === 2 ? 'ABSENT' : 'PRÉSENT'}</Badge>
+                                <Badge variant={res.statut === 'absent' ? 'danger' : res.statut === 'present' ? 'success' : 'warning'}>
+                                    {res.statut ? res.statut.toUpperCase().replace('_', ' ') : 'EN ATTENTE'}
+                                </Badge>
                             </div>
                         ))}
                     </div>
@@ -105,14 +133,18 @@ const DashboardStagiaire = () => {
                         <Link to="/stagiaire/notifications" className="text-sm font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300">Tout lire</Link>
                     </div>
                     <div className="divide-y divide-slate-50 dark:divide-slate-800 text-sm">
-                        {[1, 2].map(i => (
-                            <div key={i} className="p-4 flex gap-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                                <div className={`mt-1 h-2 w-2 rounded-full shrink-0 ${i === 1 ? 'bg-primary-600' : 'bg-transparent'}`}></div>
+                        {notifications.length === 0 ? (
+                             <div className="p-4 text-center text-sm text-slate-500">Aucune notification</div>
+                        ) : notifications.slice(0, 3).map((notif, i) => (
+                            <div key={notif._id || i} className="p-4 flex gap-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                <div className={`mt-1 h-2 w-2 rounded-full shrink-0 ${!notif.isRead ? 'bg-primary-600' : 'bg-transparent'}`}></div>
                                 <div>
                                     <p className="text-slate-800 dark:text-slate-100 leading-tight">
-                                        {i === 1 ? 'Votre réservation a été confirmée.' : 'Le menu de demain est disponible !'}
+                                        {notif.message}
                                     </p>
-                                    <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Il y a {i * 2} heures</p>
+                                    <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
+                                        {new Date(notif.createdAt).toLocaleDateString()}
+                                    </p>
                                 </div>
                             </div>
                         ))}

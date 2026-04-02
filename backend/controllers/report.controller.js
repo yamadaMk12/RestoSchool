@@ -27,7 +27,12 @@ const getReports = async (req, res) => {
  * @access  Private/Stagiaire
  */
 const createReport = async (req, res) => {
-    const { message, attachments } = req.body;
+    const { message } = req.body;
+    let attachments = [];
+
+    if (req.files && req.files.length > 0) {
+        attachments = req.files.map(file => `/uploads/${file.filename}`);
+    }
 
     try {
         const report = await Report.create({
@@ -78,4 +83,67 @@ const updateReport = async (req, res) => {
     }
 };
 
-export { getReports, createReport, updateReport };
+/**
+ * @desc    Update report properties (Stagiaire)
+ * @route   PUT /api/reports/:id
+ * @access  Private/Stagiaire
+ */
+const updateReportStagiaire = async (req, res) => {
+    const { message, keptAttachments } = req.body;
+    try {
+        const report = await Report.findById(req.params.id);
+        if (report) {
+            if (report.cef !== req.user.CEF) return res.status(403).json({ message: 'Non autorisé' });
+            if (report.statut !== 'ouverte') return res.status(403).json({ message: 'Modification impossible : le signalement est déjà en traitement.' });
+
+            report.message = message || report.message;
+            
+            let finalAttachments = [];
+            if (keptAttachments) {
+                if (Array.isArray(keptAttachments)) {
+                    finalAttachments = [...keptAttachments];
+                } else {
+                    finalAttachments.push(keptAttachments);
+                }
+            }
+
+            if (req.files && req.files.length > 0) {
+                const newUploads = req.files.map(file => `/uploads/${file.filename}`);
+                finalAttachments = [...finalAttachments, ...newUploads];
+            }
+            
+            report.attachments = finalAttachments.slice(0, 3);
+            
+            const updatedReport = await report.save();
+            res.json(updatedReport);
+            await Logger.log(req.user.CEF, 'stagiaire', 'REPORT_UPDATED_STAG', { reportId: req.params.id });
+        } else {
+            res.status(404).json({ message: 'Signalement non trouvé' });
+        }
+    } catch {
+        res.status(500).json({ message: 'Erreur lors de la mise à jour' });
+    }
+};
+
+/**
+ * @desc    Delete a report
+ * @route   DELETE /api/reports/:id
+ * @access  Private/Stagiaire
+ */
+const deleteReport = async (req, res) => {
+    try {
+        const report = await Report.findById(req.params.id);
+        if (report) {
+            if (report.cef !== req.user.CEF) return res.status(403).json({ message: 'Non autorisé' });
+            await report.deleteOne();
+            res.json({ message: 'Signalement supprimé' });
+            await Logger.log(req.user.CEF, 'stagiaire', 'REPORT_DELETED', { reportId: req.params.id });
+        } else {
+            res.status(404).json({ message: 'Signalement non trouvé' });
+        }
+    } catch {
+        res.status(500).json({ message: 'Erreur lors de la suppression' });
+    }
+};
+
+export { getReports, createReport, updateReport, updateReportStagiaire, deleteReport };
