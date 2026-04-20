@@ -1,12 +1,25 @@
+import api from './api';
+
 export const getReclamations = async () => {
-    return [
-        { id: 1, message: 'Problème avec mon repas du midi.', status: 'FERMÉE', response: 'Nous avons pris en compte votre remarque.', date: '2024-05-10' },
-        { id: 2, message: 'Erreur de pointage présence.', status: 'EN_COURS', date: '2024-05-19' },
-    ];
+    const response = await api.get('/reports');
+    return response.data;
 };
 
 export const createReclamation = async (formData) => {
-    // Mock with timeout
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    return { success: true };
+    const response = await api.post('/reports', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    });
+    return response.data;
+};
+
+export const updateReclamation = async (id, formData) => {
+    const response = await api.put(`/reports/${id}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    });
+    return response.data;
+};
+
+export const deleteReclamation = async (id) => {
+    const response = await api.delete(`/reports/${id}`);
+    return response.data;
 };

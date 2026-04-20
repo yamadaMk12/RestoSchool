@@ -8,7 +8,7 @@ const Layout = ({ children }) => {
     const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col transition-colors duration-300">
+        <div className="h-screen overflow-hidden bg-slate-50 dark:bg-slate-950 flex flex-col transition-colors duration-300">
             <Navbar onToggleSidebar={toggleSidebar} />
             <div className="flex flex-1 relative overflow-hidden">
                 <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
