@@ -21,7 +21,7 @@ export const getUpcomingWeekDates = () => {
 };
 
 export const getNextOpeningTime = () => {
-    return "Dimanche 00h00";
+    return "Dimanche";
 };
 
 export const formatFullDate = (dateString) => {

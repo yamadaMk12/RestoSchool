@@ -38,11 +38,11 @@ const seed = async () => {
         // Create Students
         const studentPassword = 'test123';
         const students = [
-            { CIN: 'BK111111', CEF: 'ELE001', nom: 'Lalami', prenom: 'Yassine', genre: 'M', room: 'B201', password: studentPassword },
-            { CIN: 'BK222222', CEF: 'ELE002', nom: 'Berrada', prenom: 'Sara', genre: 'F', room: 'B202', password: studentPassword },
-            { CIN: 'BK333333', CEF: 'ELE003', nom: 'Idrissi', prenom: 'Mehdi', genre: 'M', room: 'B203', password: studentPassword },
-            { CIN: 'BK444444', CEF: 'ELE004', nom: 'Tazi', prenom: 'Kenza', genre: 'F', room: 'A101', password: studentPassword },
-            { CIN: 'BK555555', CEF: 'ELE005', nom: 'Naciri', prenom: 'Omar', genre: 'M', room: 'A102', password: studentPassword }
+            { CIN: 'BK111111', CEF: 'ELE001', nom: 'Lalami', prenom: 'Yassine', genre: 'M', room: '1', password: studentPassword },
+            { CIN: 'BK222222', CEF: 'ELE002', nom: 'Berrada', prenom: 'Sara', genre: 'F', room: '1', password: studentPassword },
+            { CIN: 'BK333333', CEF: 'ELE003', nom: 'Idrissi', prenom: 'Mehdi', genre: 'M', room: '1', password: studentPassword },
+            { CIN: 'BK444444', CEF: 'ELE004', nom: 'Tazi', prenom: 'Kenza', genre: 'F', room: '2', password: studentPassword },
+            { CIN: 'BK555555', CEF: 'ELE005', nom: 'Naciri', prenom: 'Omar', genre: 'M', room: '2', password: studentPassword }
         ];
 
         for (const s of students) {

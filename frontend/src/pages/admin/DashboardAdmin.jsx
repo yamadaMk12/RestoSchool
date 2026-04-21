@@ -30,6 +30,8 @@ const DashboardAdmin = () => {
         { label: 'Réclamations Ouvertes', value: stats?.openReclamations, icon: MessageSquare, color: 'text-amber-600', bg: 'bg-amber-50', link: '/admin/reclamations' },
     ];
 
+    console.log(logs)
+
     return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -75,8 +77,10 @@ const DashboardAdmin = () => {
                     <Card className="overflow-hidden border-none shadow-lg shadow-slate-200/50 dark:shadow-none">
                         <div className="divide-y divide-slate-50 dark:divide-slate-800">
                             {logs && logs.length > 0 ? (
-                                logs.map((log) => (
-                                    <div key={log.id} className="p-4 flex gap-4 items-start hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                
+                                logs.map((log) => {
+                                    return (
+                                    <div key={log._id} className="p-4 flex gap-4 items-start hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                                         <div className="w-10 h-10 bg-slate-100 dark:bg-slate-800 rounded-lg flex items-center justify-center text-slate-500 dark:text-slate-400 shrink-0">
                                             <Clock size={20} />
                                         </div>
@@ -85,11 +89,12 @@ const DashboardAdmin = () => {
                                                 <p className="text-sm font-bold text-slate-900 dark:text-slate-100">{log.action}</p>
                                                 <span className="text-[11px] text-slate-400 dark:text-slate-500 font-medium">{log.date}</span>
                                             </div>
-                                            <p className="text-sm text-slate-600 dark:text-slate-400 truncate mt-0.5">{log.details}</p>
+                                            <p className="text-sm text-slate-600 dark:text-slate-400 truncate mt-0.5">{new Date(log.createdAt).toLocaleString()}</p>
                                             <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-1 uppercase tracking-wider">Par: {log.cef} ({log.role})</p>
                                         </div>
                                     </div>
-                                ))
+                                    )
+                                })
                             ) : (
                                 <div className="p-12 flex flex-col items-center justify-center text-center">
                                     <div className="w-16 h-16 bg-slate-50 dark:bg-slate-800/50 rounded-full flex items-center justify-center mb-4">
