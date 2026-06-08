@@ -1,5 +1,5 @@
 export const isReservationWindowOpen = () => {
-    return new Date().getDay() === 0;
+    return new Date().getDay() === 1;
 };
 
 export const getUpcomingWeekDates = () => {

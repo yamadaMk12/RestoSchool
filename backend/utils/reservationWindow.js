@@ -5,7 +5,7 @@
  */
 export function isWindowOpen() {
     const now = new Date();
-    return now.getDay() === 0;
+    return now.getDay() === 1;
 }
 
 /**
