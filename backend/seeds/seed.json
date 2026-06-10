@@ -1,0 +1,290 @@
+[
+  {
+    "CEF": "1996121100057",
+    "Nom": "AIT-RAHO",
+    "Prénom": "ZOUHAIR",
+    "CIN": "UB93218",
+    "Sexe": "G",
+    "CHAMBRE": 1
+  },
+  {
+    "CEF": "2003100800465",
+    "Nom": "LAATIGUI",
+    "Prénom": "HAMZA",
+    "CIN": "FA207657",
+    "Sexe": "G",
+    "CHAMBRE": 1
+  },
+  {
+    "CEF": "2005110300007",
+    "Nom": "KHAYALI",
+    "Prénom": "MOHAMED NABIL",
+    "CIN": "GM252695",
+    "Sexe": "G",
+    "CHAMBRE": 1
+  },
+  {
+    "CEF": "2002052900321",
+    "Nom": "BOUDOUDOUH",
+    "Prénom": "BILAL",
+    "CIN": "DA102353",
+    "Sexe": "G",
+    "CHAMBRE": 1
+  },
+  {
+    "CEF": "2005121200405",
+    "Nom": "ET-TABIA",
+    "Prénom": "MOUSSA",
+    "CIN": "WA361532",
+    "Sexe": "G",
+    "CHAMBRE": 2
+  },
+  {
+    "CEF": "2000082100407",
+    "Nom": "KHOMSI EL HADDAD",
+    "Prénom": "YOUSSEF",
+    "CIN": "L640315",
+    "Sexe": "G",
+    "CHAMBRE": 2
+  },
+  {
+    "CEF": "2006012500200",
+    "Nom": "EL-BAROUDI",
+    "Prénom": "IBRAHIM",
+    "CIN": "KB293605",
+    "Sexe": "G",
+    "CHAMBRE": 2
+  },
+  {
+    "CEF": "2006012500368",
+    "Nom": "IDDIR",
+    "Prénom": "ADAM",
+    "CIN": "LA205761",
+    "Sexe": "G",
+    "CHAMBRE": 2
+  },
+  {
+    "CEF": "2000080200558",
+    "Nom": "FTICH",
+    "Prénom": "MOHSSINE",
+    "CIN": "GB288356",
+    "Sexe": "G",
+    "CHAMBRE": 3
+  },
+  {
+    "CEF": "2003122500305",
+    "Nom": "BENSAR",
+    "Prénom": "AYOUB",
+    "CIN": "LA192932",
+    "Sexe": "G",
+    "CHAMBRE": 3
+  },
+  {
+    "CEF": "2003082900366",
+    "Nom": "AABIRROUCHE",
+    "Prénom": "MAROUANE",
+    "CIN": "TK30628",
+    "Sexe": "G",
+    "CHAMBRE": 3
+  },
+  {
+    "CEF": "2004082500313",
+    "Nom": "EL- GLAI",
+    "Prénom": "SALAH EDDINE",
+    "CIN": "GB307630",
+    "Sexe": "G",
+    "CHAMBRE": 3
+  },
+  {
+    "CEF": "2002083100137",
+    "Nom": "GABARI",
+    "Prénom": "OUSSAMA",
+    "CIN": "LB244351",
+    "Sexe": "G",
+    "CHAMBRE": 4
+  },
+  {
+    "CEF": "2003051200379",
+    "Nom": "CHAACHOUI",
+    "Prénom": "MOHAMED-AMINE",
+    "CIN": "VA154968",
+    "Sexe": "G",
+    "CHAMBRE": 4
+  },
+  {
+    "CEF": "2004100100551",
+    "Nom": "KHALIFI",
+    "Prénom": "AYMAN",
+    "CIN": "K612617",
+    "Sexe": "G",
+    "CHAMBRE": 4
+  },
+  {
+    "CEF": "2006072600312",
+    "Nom": "EL ATMANI",
+    "Prénom": "MOHAMED KAMEL",
+    "CIN": "LE31406",
+    "Sexe": "G",
+    "CHAMBRE": 4
+  },
+  {
+    "CEF": "2003041100323",
+    "Nom": "ZAIM",
+    "Prénom": "OUSSAMA",
+    "CIN": "D599618",
+    "Sexe": "G",
+    "CHAMBRE": 5
+  },
+  {
+    "CEF": "2005050900201",
+    "Nom": "EL.AHRACH",
+    "Prénom": "SAAD",
+    "CIN": "L722057",
+    "Sexe": "G",
+    "CHAMBRE": 5
+  },
+  {
+    "CEF": "2004060700310",
+    "Nom": "BENDKHIL",
+    "Prénom": "MOHAMED",
+    "CIN": "KA71567",
+    "Sexe": "G",
+    "CHAMBRE": 5
+  },
+  {
+    "CEF": "2005011600318",
+    "Nom": "JDIRI",
+    "Prénom": "ADAM",
+    "CIN": "EE875023",
+    "Sexe": "G",
+    "CHAMBRE": 5
+  },
+  {
+    "CEF": "2000062100494",
+    "Nom": "ERRAHALI",
+    "Prénom": "ANAS",
+    "CIN": "BW4592",
+    "Sexe": "G",
+    "CHAMBRE": 6
+  },
+  {
+    "CEF": "2005040900112",
+    "Nom": "EL FARKH",
+    "Prénom": "ABDESSAMAD",
+    "CIN": "ZG172325",
+    "Sexe": "G",
+    "CHAMBRE": 6
+  },
+  {
+    "CEF": "2004050500367",
+    "Nom": "OTMANE",
+    "Prénom": "HOUSSAM",
+    "CIN": "ZT322617",
+    "Sexe": "G",
+    "CHAMBRE": 6
+  },
+  {
+    "CEF": "2002012800236",
+    "Nom": "HAMDAOUI",
+    "Prénom": "ABDELMONIM",
+    "CIN": "UA127224",
+    "Sexe": "G",
+    "CHAMBRE": 6
+  },
+  {
+    "CEF": "2002021800404",
+    "Nom": "SERRAT",
+    "Prénom": "HAFID",
+    "CIN": "M668477",
+    "Sexe": "G",
+    "CHAMBRE": 7
+  },
+  {
+    "CEF": "2002070200480",
+    "Nom": "BOUZID",
+    "Prénom": "ABDELHAMID",
+    "CIN": "LC363016",
+    "Sexe": "G",
+    "CHAMBRE": 7
+  },
+  {
+    "CEF": "2006020600134",
+    "Nom": "EL HARRAS",
+    "Prénom": "YOUSSEF",
+    "CIN": "LB263410",
+    "Sexe": "G",
+    "CHAMBRE": 7
+  },
+  {
+    "CEF": "2003011200468",
+    "Nom": "AKKAL",
+    "Prénom": "MOHAMED",
+    "CIN": "LA203764",
+    "Sexe": "G",
+    "CHAMBRE": 7
+  },
+  {
+    "CEF": "2001020900036",
+    "Nom": "EL GOUMRI",
+    "Prénom": "RIDA",
+    "CIN": "JT96986",
+    "Sexe": "G",
+    "CHAMBRE": 8
+  },
+  {
+    "CEF": "2004120800114",
+    "Nom": "BEN BELLA",
+    "Prénom": "ISMAIL",
+    "CIN": "J574426",
+    "Sexe": "G",
+    "CHAMBRE": 8
+  },
+  {
+    "CEF": "2005092400200",
+    "Nom": "EL BETTIOUI",
+    "Prénom": "RAYANE",
+    "CIN": "LG45270",
+    "Sexe": "G",
+    "CHAMBRE": 8
+  },
+  {
+    "CEF": "2000021100434",
+    "Nom": "ARIKI",
+    "Prénom": "HAMZA",
+    "CIN": "JT84851",
+    "Sexe": "G",
+    "CHAMBRE": 8
+  },
+  {
+    "CEF": "1998051200428",
+    "Nom": "BAKHA",
+    "Prénom": "OUSSAMA",
+    "CIN": "L632987",
+    "Sexe": "G",
+    "CHAMBRE": 9
+  },
+  {
+    "CEF": "2001101600483",
+    "Nom": "EZZBAKH",
+    "Prénom": "IBRAHIM",
+    "CIN": "LC372632",
+    "Sexe": "G",
+    "CHAMBRE": 9
+  },
+  {
+    "CEF": "2003041100371",
+    "Nom": "ABEZAZE",
+    "Prénom": "REDA",
+    "CIN": "L698200",
+    "Sexe": "G",
+    "CHAMBRE": 9
+  },
+  {
+    "CEF": "2005010500357",
+    "Nom": "ELHALIMI",
+    "Prénom": "MOHAMED",
+    "CIN": "L697511",
+    "Sexe": "G",
+    "CHAMBRE": 9
+  }
+]

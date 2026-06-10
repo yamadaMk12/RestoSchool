@@ -16,7 +16,7 @@ const seedCustom = async () => {
         await mongoose.connect(process.env.MONGO_URI);
         console.log('MongoDB Connected for custom seeding...');
 
-        const data = JSON.parse(fs.readFileSync('c:\\Users\\Ren\\Downloads\\hamid et mohamed test.json', 'utf-8'));
+        const data = JSON.parse(fs.readFileSync('./seeds/seed.json', 'utf-8'));
         
         await User.deleteMany();
         await Reservation.deleteMany();
