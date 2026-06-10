@@ -50,16 +50,31 @@ const seed = async () => {
         }
 
         // Create Reservations
-        const today = new Date().toISOString().split('T')[0];
-        const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+        const todayObj = new Date();
+        const dates = [];
+        for (let i = 6; i >= 0; i--) {
+            const d = new Date();
+            d.setDate(todayObj.getDate() - i);
+            dates.push(d.toISOString().split('T')[0]);
+        }
+        const tomorrow = new Date(todayObj.getTime() + 86400000).toISOString().split('T')[0];
+        dates.push(tomorrow);
 
-        await Reservation.insertMany([
-            { cef: 'ELE001', date: today, repas: ['dejeuner', 'diner'], statut: 'en_attente' },
-            { cef: 'ELE002', date: today, repas: ['petit_dejeuner', 'dejeuner'], statut: 'present' },
-            { cef: 'ELE003', date: tomorrow, repas: ['diner'], statut: 'en_attente' },
-            { cef: 'ELE004', date: today, repas: ['petit_dejeuner', 'dejeuner', 'diner'], statut: 'absent' },
-            { cef: 'ELE005', date: tomorrow, repas: ['dejeuner'], statut: 'en_attente' }
-        ]);
+        const reservationsData = [];
+        dates.forEach((date, index) => {
+            const isPast = index < 6; // index 6 is today, 7 is tomorrow
+            const isToday = index === 6;
+            
+            reservationsData.push(
+                { cef: 'ELE001', date, repas: ['dejeuner', 'diner'], statut: isPast ? 'present' : (isToday ? 'en_attente' : 'en_attente') },
+                { cef: 'ELE002', date, repas: ['petit_dejeuner', 'dejeuner'], statut: isPast ? 'present' : (isToday ? 'present' : 'en_attente') },
+                { cef: 'ELE003', date, repas: ['diner'], statut: isPast ? 'absent' : 'en_attente' },
+                { cef: 'ELE004', date, repas: ['petit_dejeuner', 'dejeuner', 'diner'], statut: isPast ? 'present' : (isToday ? 'absent' : 'en_attente') },
+                { cef: 'ELE005', date, repas: ['dejeuner'], statut: isPast ? 'present' : 'en_attente' }
+            );
+        });
+
+        await Reservation.insertMany(reservationsData);
 
         // Create Notifications
         // enums 'confirmation', 'sanction', 'levee_suspension', 'info'

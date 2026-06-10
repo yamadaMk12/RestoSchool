@@ -5,9 +5,26 @@ export const getAllUsers = async () => {
     return response.data;
 };
 
+export const createUser = async (data) => {
+    const response = await api.post('/users', data);
+    return response.data;
+};
+
+export const updateUser = async (id, data) => {
+    const response = await api.put(`/users/${id}`, data);
+    return response.data;
+};
+
+export const deleteUser = async (id) => {
+    const response = await api.delete(`/users/${id}`);
+    return response.data;
+};
+
 export const updatePresence = async (data) => {
-    // data: { studentId, mealType, status }
-    const response = await api.post('/presence', data);
+    const response = await api.patch(`/presence/${data.reservationId}`, {
+        statut: data.statut,
+        adminCef: data.adminCef
+    });
     return response.data;
 };
 
@@ -18,6 +35,11 @@ export const getSuspendedStudents = async () => {
 
 export const liftSanction = async (userId) => {
     const response = await api.patch(`/sanctions/${userId}/lift`);
+    return response.data;
+};
+
+export const getSanctionHistory = async () => {
+    const response = await api.get('/sanctions/history');
     return response.data;
 };
 
@@ -36,13 +58,23 @@ export const getAdminStats = async () => {
     return response.data;
 };
 
-export const getDailyStats = async () => {
-    const response = await api.get('/stats/daily');
+export const getWeeklyStats = async () => {
+    const response = await api.get('/stats/weekly');
+    return response.data;
+};
+
+export const getStatsByMeal = async () => {
+    const response = await api.get('/stats/by-meal');
     return response.data;
 };
 
 export const getLastLogs = async () => {
     const response = await api.get('/logs/last');
+    return response.data;
+};
+
+export const getAllLogs = async (page = 1, limit = 20) => {
+    const response = await api.get(`/logs?page=${page}&limit=${limit}`);
     return response.data;
 };
 export const getAdminReservations = async (date) => {

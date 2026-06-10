@@ -1,5 +1,5 @@
 import express from 'express';
-import { getLastLogs } from '../controllers/log.controller.js';
+import { getLastLogs, getAllLogs } from '../controllers/log.controller.js';
 import { protect } from '../middlewares/auth.middleware.js';
 import { requireRole } from '../middlewares/role.middleware.js';
 
@@ -10,5 +10,6 @@ router.use(protect);
 router.use(requireRole('admin'));
 
 router.get('/last', getLastLogs);
+router.get('/', getAllLogs);
 
 export default router;

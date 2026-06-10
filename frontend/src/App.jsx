@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import LoginPage from './pages/auth/LoginPage';
 import Layout from './components/Layout';
@@ -11,6 +11,7 @@ import ReservationPage from './pages/stagiaire/ReservationPage';
 import ListReservations from './pages/stagiaire/ListReservations';
 import ReclamationPage from './pages/stagiaire/ReclamationPage';
 import NotificationsPage from './pages/stagiaire/NotificationsPage';
+import SuspendedPage from './pages/stagiaire/SuspendedPage';
 
 // Admin Pages
 import DashboardAdmin from './pages/admin/DashboardAdmin';
@@ -23,6 +24,14 @@ import AdminUsers from './pages/admin/AdminUsers';
 import AdminLogs from './pages/admin/AdminLogs';
 
 import { ThemeProvider } from './context/ThemeContext';
+
+const StagiaireFallback = () => {
+  const { user } = useAuth();
+  if (user?.role === 'stagiaire' && user?.isSuspended) {
+    return <Navigate to="suspended" replace />;
+  }
+  return <Navigate to="dashboard" replace />;
+};
 
 function App() {
   return (
@@ -42,7 +51,8 @@ function App() {
                     <Route path="reservations" element={<ListReservations />} />
                     <Route path="reclamation" element={<ReclamationPage />} />
                     <Route path="notifications" element={<NotificationsPage />} />
-                    <Route path="*" element={<Navigate to="dashboard" replace />} />
+                    <Route path="suspended" element={<SuspendedPage />} />
+                    <Route path="*" element={<StagiaireFallback />} />
                   </Routes>
                 </Layout>
               } />

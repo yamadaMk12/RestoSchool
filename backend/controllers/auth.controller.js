@@ -26,16 +26,13 @@ const login = async (req, res) => {
         if (user && (await user.matchPassword(password))) {
             if (user.role === 'stagiaire' && user.isSuspended) {
                 const now = new Date();
-                if (user.suspensionEnd && user.suspensionEnd > now) {
-                    return res.status(403).json({
-                        message: `Votre compte est suspendu jusqu'au ${user.suspensionEnd.toLocaleString('fr-FR')}`
-                    });
-                } else {
+                if (user.suspensionEnd && user.suspensionEnd <= now) {
                     user.isSuspended = false;
                     user.suspensionEnd = null;
                     await user.save();
                 }
             }
+            
             res.json({
                 token: generateToken(user.CEF),
                 user: {
@@ -45,7 +42,8 @@ const login = async (req, res) => {
                     nom: user.nom,
                     prenom: user.prenom,
                     role: user.role,
-                    isSuspended: user.isSuspended
+                    isSuspended: user.isSuspended,
+                    suspensionEnd: user.suspensionEnd
                 }
             });
 

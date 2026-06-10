@@ -10,7 +10,7 @@ import Logger from '../utils/logger.js';
  */
 const getActiveSanctions = async (req, res) => {
     try {
-        const sanctions = await Sanction.find({ isActive: true }).populate('student', 'nom prenom');
+        const sanctions = await Sanction.find({ isActive: true }).populate('student', 'nom prenom room');
         res.json(sanctions);
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la récupération' });
@@ -24,7 +24,7 @@ const getActiveSanctions = async (req, res) => {
  */
 const getSanctionHistory = async (req, res) => {
     try {
-        const sanctions = await Sanction.find().sort({ createdAt: -1 }).populate('student', 'nom prenom');
+        const sanctions = await Sanction.find().sort({ createdAt: -1 }).populate('student', 'nom prenom room');
         res.json(sanctions);
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la récupération' });

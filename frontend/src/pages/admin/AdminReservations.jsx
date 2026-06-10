@@ -2,6 +2,8 @@ import { useState, useEffect, useMemo } from 'react';
 import { Card, Button, Badge } from '../../components/ui';
 import { Download, Search, Filter, Calendar as CalendarIcon, User, Loader2 } from 'lucide-react';
 import { getAdminReservations, getAllUsers } from '../../services/adminService';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 const AdminReservations = () => {
     const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
@@ -68,10 +70,10 @@ const AdminReservations = () => {
 
         return currentList.filter(item => {
             const matchesSearch =
-                item.nom.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                item.prenom.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                item.cef.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                item.room.toLowerCase().includes(searchTerm.toLowerCase());
+                String(item.nom || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+                String(item.prenom || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+                String(item.cef || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+                String(item.room || '').toLowerCase().includes(searchTerm.toLowerCase());
 
             if (activeTab === 'not_reserved') return matchesSearch;
 
@@ -85,6 +87,69 @@ const AdminReservations = () => {
             return matchesSearch && matchesType;
         });
     }, [formattedData, activeTab, searchTerm, filterType]);
+
+    const handleExportPDF = () => {
+        const doc = new jsPDF();
+        
+        doc.setFontSize(20);
+        doc.text("RestoSchool - Liste des réservations", 14, 22);
+        doc.setFontSize(11);
+        doc.text(`Date: ${new Date(date).toLocaleDateString('fr-FR')}`, 14, 30);
+
+        const waitingList = formattedData.reserved.filter(r => r.status === 'en_attente');
+        
+        const groupedByRoom = {};
+        waitingList.forEach(item => {
+            const room = item.room || '?';
+            if (!groupedByRoom[room]) groupedByRoom[room] = [];
+            groupedByRoom[room].push(item);
+        });
+
+        const sortedRooms = Object.keys(groupedByRoom).sort((a, b) => a.localeCompare(b, undefined, {numeric: true}));
+        const tableBody = [];
+        
+        sortedRooms.forEach(room => {
+            const students = groupedByRoom[room];
+            students.forEach((student, index) => {
+                const hasBreakfast = student.meals.includes('petit_dejeuner');
+                const hasLunch = student.meals.includes('dejeuner');
+                const hasDinner = student.meals.includes('diner');
+
+                const getMealCell = (hasMeal) => hasMeal 
+                    ? { content: '', styles: { halign: 'center' } }
+                    : { content: '', styles: { halign: 'center', fillColor: [0, 0, 0] } };
+
+                const row = [];
+                if (index === 0) {
+                    row.push({ content: room, rowSpan: students.length, styles: { valign: 'middle', halign: 'center', fontStyle: 'bold' } });
+                }
+                row.push(`${student.nom} ${student.prenom}`);
+                row.push(student.cef);
+                row.push(getMealCell(hasBreakfast));
+                row.push(getMealCell(hasLunch));
+                row.push(getMealCell(hasDinner));
+                
+                tableBody.push(row);
+            });
+        });
+
+        autoTable(doc, {
+            startY: 35,
+            head: [['Chambre', 'Nom', 'CEF', 'Petit-déj', 'Déjeuner', 'Dîner']],
+            body: tableBody,
+            theme: 'grid',
+            headStyles: { fillColor: [15, 23, 42] },
+            styles: { fontSize: 10, cellPadding: 3 },
+            columnStyles: {
+                0: { cellWidth: 25 },
+                3: { cellWidth: 25 },
+                4: { cellWidth: 25 },
+                5: { cellWidth: 25 }
+            }
+        });
+
+        doc.save(`reservations_attente_${date}.pdf`);
+    };
 
     const getMealBadge = (meal) => {
         const labels = {
@@ -100,7 +165,7 @@ const AdminReservations = () => {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <h1 className="text-2xl font-bold text-slate-800 dark:text-white transition-colors duration-300">Gestion des Réservations</h1>
                 <div className="flex gap-2">
-                    <Button variant="secondary" className="gap-2">
+                    <Button variant="secondary" className="gap-2" onClick={handleExportPDF}>
                         <Download size={18} />
                         Exporter PDF
                     </Button>

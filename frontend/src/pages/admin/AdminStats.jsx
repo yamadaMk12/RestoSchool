@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card } from '../../components/ui';
 import {
     BarChart,
@@ -15,26 +15,35 @@ import {
 } from 'recharts';
 import { BarChart3, PieChart as PieChartIcon, Target, Users } from 'lucide-react';
 
+import { getAdminStats, getWeeklyStats, getStatsByMeal } from '../../services/adminService';
+
 const AdminStats = () => {
-    const dataDaily = [
-        { name: 'Lun', reservations: 120, presence: 110 },
-        { name: 'Mar', reservations: 140, presence: 135 },
-        { name: 'Mer', reservations: 130, presence: 120 },
-        { name: 'Jeu', reservations: 156, presence: 145 },
-        { name: 'Ven', reservations: 110, presence: 105 },
-        { name: 'Sam', reservations: 40, presence: 38 },
-    ];
+    const [dashboardStats, setDashboardStats] = useState(null);
+    const [weeklyStats, setWeeklyStats] = useState([]);
+    const [mealStats, setMealStats] = useState([]);
 
-    const dataMeals = [
-        { name: 'Petit-déjeuner', value: 45 },
-        { name: 'Déjeuner', value: 85 },
-        { name: 'Dîner', value: 65 },
-    ];
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                const dash = await getAdminStats();
+                setDashboardStats(dash);
+                
+                const weekly = await getWeeklyStats();
+                const formattedWeekly = weekly.reverse().map(item => {
+                    const dateObj = new Date(item.date);
+                    const name = dateObj.toLocaleDateString('fr-FR', { weekday: 'short' });
+                    return { ...item, name: name.charAt(0).toUpperCase() + name.slice(1), presence: item.presents };
+                });
+                setWeeklyStats(formattedWeekly);
 
-    const dataPresence = [
-        { name: 'Présent', value: 92 },
-        { name: 'Absent', value: 8 },
-    ];
+                const meals = await getStatsByMeal();
+                setMealStats(meals.map(m => ({ name: m.type, value: m.count })));
+            } catch (error) {
+                console.error("Error fetching stats:", error);
+            }
+        };
+        fetchStats();
+    }, []);
 
     const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444'];
 
@@ -49,9 +58,9 @@ const AdminStats = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <StatSummaryCard title="Total Réservations (7j)" value="701" trend="+12%" icon={Users} color="text-blue-600" bg="bg-blue-50" />
-                <StatSummaryCard title="Taux de présence moyen" value="94.2%" trend="+2.4%" icon={Target} color="text-emerald-600" bg="bg-emerald-50" />
-                <StatSummaryCard title="Stagiaires les plus absents" value="5" trend="-1" icon={PieChartIcon} color="text-amber-600" bg="bg-amber-50" />
+                <StatSummaryCard title="Total Réservations (Auj)" value={dashboardStats?.totalToday || 0} trend="Auj" icon={Users} color="text-blue-600" bg="bg-blue-50" />
+                <StatSummaryCard title="Taux de présence moyen" value={`${dashboardStats?.presenceRate || 0}%`} trend="Auj" icon={Target} color="text-emerald-600" bg="bg-emerald-50" />
+                <StatSummaryCard title="Réclamations Ouvertes" value={dashboardStats?.openReports || 0} trend="Actif" icon={PieChartIcon} color="text-amber-600" bg="bg-amber-50" />
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -59,7 +68,7 @@ const AdminStats = () => {
                     <h3 className="font-black text-slate-800 dark:text-white uppercase tracking-widest text-xs mb-8">Réservations vs Présences</h3>
                     <div className="h-[300px] w-full">
                         <ResponsiveContainer width="100%" height="100%">
-                            <BarChart data={dataDaily}>
+                            <BarChart data={weeklyStats}>
                                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#334155" />
                                 <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fontWeight: 700, fill: '#94a3b8' }} dy={10} />
                                 <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fontWeight: 700, fill: '#94a3b8' }} />
@@ -79,7 +88,7 @@ const AdminStats = () => {
                             <ResponsiveContainer width="100%" height="100%">
                                 <PieChart>
                                     <Pie
-                                        data={dataMeals}
+                                        data={mealStats}
                                         cx="50%"
                                         cy="50%"
                                         innerRadius={60}
@@ -87,7 +96,7 @@ const AdminStats = () => {
                                         paddingAngle={8}
                                         dataKey="value"
                                     >
-                                        {dataMeals.map((entry, index) => (
+                                        {mealStats.map((entry, index) => (
                                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                         ))}
                                     </Pie>

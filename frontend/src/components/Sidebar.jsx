@@ -19,7 +19,10 @@ import { cn } from './ui';
 const Sidebar = ({ isOpen, onClose }) => {
     const { user } = useAuth();
 
-    const stagiaireLinks = [
+    const stagiaireLinks = user?.isSuspended ? [
+        { to: '/stagiaire/suspended', icon: ShieldAlert, label: 'Compte Suspendu' },
+        { to: '/stagiaire/reclamation', icon: MessageSquare, label: 'Réclamations' },
+    ] : [
         { to: '/stagiaire/dashboard', icon: LayoutDashboard, label: 'Tableau de bord' },
         { to: '/stagiaire/reserver', icon: Utensils, label: 'Réserver' },
         { to: '/stagiaire/reservations', icon: History, label: 'Mes Réservations' },

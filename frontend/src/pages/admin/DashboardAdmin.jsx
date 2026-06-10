@@ -30,7 +30,6 @@ const DashboardAdmin = () => {
         { label: 'Réclamations Ouvertes', value: stats?.openReclamations, icon: MessageSquare, color: 'text-amber-600', bg: 'bg-amber-50', link: '/admin/reclamations' },
     ];
 
-    console.log(logs)
 
     return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
