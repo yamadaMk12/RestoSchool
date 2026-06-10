@@ -159,7 +159,7 @@ const AdminPresence = () => {
                                                     </>
                                                 ) : (
                                                     <Badge variant={row.statut === 'present' ? 'success' : 'danger'} className="px-4 py-1.5 text-xs">
-                                                        {row.statut === 'present' ? 'PRÉSENT ✅' : 'ABSENT ❌'}
+                                                        {row.statut === 'present' ? 'PRÉSENT' : 'ABSENT'}
                                                     </Badge>
                                                 )}
                                             </div>

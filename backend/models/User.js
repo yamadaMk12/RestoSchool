@@ -1,5 +1,11 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
+import Reservation from './Reservation.js';
+import Presence from './Presence.js';
+import Sanction from './Sanction.js';
+import Notification from './Notification.js';
+import Report from './Report.js';
+import ActionLog from './ActionLog.js';
 
 const userSchema = new mongoose.Schema({
     CIN: { type: String, required: true },
@@ -26,20 +32,41 @@ userSchema.pre('save', async function (next) {
     next();
 });
 
-// Check room occupancy before saving
+// Check room occupancy before saving (max 4 per gender per room)
 userSchema.pre('save', async function (next) {
     if (this.isModified('room') && this.room !== undefined && this.room !== null) {
         const count = await this.constructor.countDocuments({
             room: this.room,
+            genre: this.genre,
             _id: { $ne: this._id }
         });
 
         if (count >= 4) {
-            const error = new Error('La chambre est déjà complète (maximum 4 personnes)');
+            const label = this.genre === 'M' ? 'garçons' : 'filles';
+            const error = new Error(`La chambre est déjà complète pour les ${label} (maximum 4)`);
             return next(error);
         }
     }
     next();
+});
+
+// CASCADE DELETE: remove all related documents when a user is deleted
+userSchema.pre('deleteOne', { document: true, query: false }, async function () {
+    const cef = this.CEF;
+
+    // Get reservation IDs to delete associated presences
+    const reservations = await Reservation.find({ cef }).select('_id');
+    const reservationIds = reservations.map(r => r._id);
+
+    // Delete all related documents
+    await Promise.all([
+        Presence.deleteMany({ $or: [{ cef }, { reservationId: { $in: reservationIds } }] }),
+        Reservation.deleteMany({ cef }),
+        Sanction.deleteMany({ cef }),
+        Notification.deleteMany({ cef }),
+        Report.deleteMany({ cef }),
+        ActionLog.deleteMany({ cef })
+    ]);
 });
 
 // Method to compare passwords

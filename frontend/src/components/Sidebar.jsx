@@ -39,6 +39,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         { to: '/admin/statistiques', icon: BarChart3, label: 'Statistiques' },
         { to: '/admin/users', icon: Users, label: 'Utilisateurs' },
         { to: '/admin/logs', icon: FileText, label: 'Logs d\'actions' },
+        { to: '/admin/notifications', icon: Bell, label: 'Notifications' },
     ];
 
     const links = user?.role === 'admin' ? adminLinks : stagiaireLinks;

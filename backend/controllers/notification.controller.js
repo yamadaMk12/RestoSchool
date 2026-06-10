@@ -1,4 +1,6 @@
 import Notification from '../models/Notification.js';
+import User from '../models/User.js';
+import Logger from '../utils/logger.js';
 
 /**
  * @desc    Get user's notifications
@@ -53,4 +55,57 @@ const markAllAsRead = async (req, res) => {
     }
 };
 
-export { getNotifications, markAsRead, markAllAsRead };
+export { getNotifications, markAsRead, markAllAsRead, sendNotification };
+
+/**
+ * @desc    Admin sends notification to all or specific users
+ * @route   POST /api/notifications/send
+ * @access  Private/Admin
+ */
+const sendNotification = async (req, res) => {
+    const { titre, message, target, cefs } = req.body;
+
+    if (!titre || !message || !target) {
+        return res.status(400).json({ message: 'Titre, message et cible sont requis' });
+    }
+
+    try {
+        let targetCefs = [];
+
+        if (target === 'all') {
+            const users = await User.find({ role: 'stagiaire' }).select('CEF');
+            targetCefs = users.map(u => u.CEF);
+        } else if (target === 'specific') {
+            if (!cefs || !Array.isArray(cefs) || cefs.length === 0) {
+                return res.status(400).json({ message: 'Veuillez sélectionner au moins un utilisateur' });
+            }
+            targetCefs = cefs;
+        } else {
+            return res.status(400).json({ message: 'Cible invalide' });
+        }
+
+        const notifications = targetCefs.map(cef => ({
+            cef,
+            titre,
+            message,
+            type: 'info',
+            isRead: false
+        }));
+
+        await Notification.insertMany(notifications);
+
+        await Logger.log(req.user.CEF, 'admin', 'NOTIFICATION_SENT', {
+            target,
+            count: targetCefs.length,
+            titre
+        });
+
+        res.status(201).json({
+            message: `Notification envoyée à ${targetCefs.length} utilisateur(s)`,
+            count: targetCefs.length
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Erreur lors de l\'envoi de la notification' });
+    }
+};

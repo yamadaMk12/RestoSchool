@@ -22,6 +22,7 @@ import AdminReclamations from './pages/admin/AdminReclamations';
 import AdminStats from './pages/admin/AdminStats';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminLogs from './pages/admin/AdminLogs';
+import AdminNotifications from './pages/admin/AdminNotifications';
 
 import { ThemeProvider } from './context/ThemeContext';
 
@@ -72,6 +73,7 @@ function App() {
                     <Route path="statistiques" element={<AdminStats />} />
                     <Route path="users" element={<AdminUsers />} />
                     <Route path="logs" element={<AdminLogs />} />
+                    <Route path="notifications" element={<AdminNotifications />} />
                     <Route path="*" element={<Navigate to="dashboard" replace />} />
                   </Routes>
                 </Layout>

@@ -81,3 +81,8 @@ export const getAdminReservations = async (date) => {
     const response = await api.get(`/reservations?date=${date}`);
     return response.data;
 };
+
+export const sendNotification = async (data) => {
+    const response = await api.post('/notifications/send', data);
+    return response.data;
+};
