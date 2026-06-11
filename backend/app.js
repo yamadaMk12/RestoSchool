@@ -15,6 +15,9 @@ import logRoutes from './routes/log.routes.js';
 
 const app = express();
 
+// Trust reverse proxy (like Vercel) for rate limiter IP identification
+app.set('trust proxy', 1);
+
 // Middlewares
 app.use(helmet({
     crossOriginResourcePolicy: { policy: "cross-origin" }
