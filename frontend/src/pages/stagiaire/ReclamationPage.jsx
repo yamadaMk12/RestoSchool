@@ -265,7 +265,7 @@ const ReclamationPage = () => {
                             <div className="flex flex-wrap gap-3">
                                 {editExistingFiles.map((url, i) => (
                                     <div key={i} className="relative group w-20 h-20 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm">
-                                        <img src={`http://localhost:5000${url}`} alt="Attachment" className="w-full h-full object-cover" />
+                                        <img src={`http://46.247.108.191:30205${url}`} alt="Attachment" className="w-full h-full object-cover" />
                                         <button
                                             type="button"
                                             onClick={() => setEditExistingFiles(prev => prev.filter(u => u !== url))}
@@ -306,8 +306,8 @@ const ReclamationPage = () => {
                                     <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Pièces jointes :</h4>
                                     <div className="flex flex-wrap gap-2">
                                         {selectedRec.attachments.map((url, i) => (
-                                            <a key={i} href={`http://localhost:5000${url}`} target="_blank" rel="noreferrer" className="w-16 h-16 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 group hover:opacity-80 transition-opacity">
-                                                <img src={`http://localhost:5000${url}`} alt="Attachment" className="w-full h-full object-cover" />
+                                            <a key={i} href={`http://46.247.108.191:30205${url}`} target="_blank" rel="noreferrer" className="w-16 h-16 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 group hover:opacity-80 transition-opacity">
+                                                <img src={`http://46.247.108.191:30205${url}`} alt="Attachment" className="w-full h-full object-cover" />
                                             </a>
                                         ))}
                                     </div>
